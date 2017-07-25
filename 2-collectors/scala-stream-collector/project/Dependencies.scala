@@ -26,7 +26,7 @@ object Dependencies {
     // Java
     val awsSdk               = "1.11.115"
     val yodaTime             = "2.9.9"
-    val kafka                = "0.10.1.0"
+    val kafka                = "0.10.2.1"
     // Scala
     val snowplowCommonEnrich = "0.22.0"
     val igluClient           = "0.3.2"

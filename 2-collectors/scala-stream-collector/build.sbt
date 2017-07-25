@@ -34,6 +34,7 @@ lazy val root = project.in(file("."))
       Dependencies.Libraries.awsSdk,
       Dependencies.Libraries.kafkaClients,
       Dependencies.Libraries.yodaTime,
+      Dependencies.Libraries.config,
       // Scala
       Dependencies.Libraries.scopt,
       Dependencies.Libraries.scalaz7,

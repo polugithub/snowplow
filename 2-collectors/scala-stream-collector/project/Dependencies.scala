@@ -27,7 +27,6 @@ object Dependencies {
     val awsSdk               = "1.11.115"
     val yodaTime             = "2.9.9"
     val kafka                = "0.10.1.0"
-    val commonsCodec         = "1.5"
     // Scala
     val snowplowCommonEnrich = "0.22.0"
     val igluClient           = "0.3.2"
@@ -42,22 +41,21 @@ object Dependencies {
 
   object Libraries {
     // Java
-    val awsSdk               = "com.amazonaws"         %  "aws-java-sdk-kinesis"      % V.awsSdk
-    val yodaTime             = "joda-time"             %  "joda-time"                 % V.yodaTime
-    val kafkaClients         = "org.apache.kafka"      %  "kafka-clients"             % V.kafka
-    val commonsCodec         = "commons-codec"         %  "commons-codec"             % V.commonsCodec
+    val awsSdk               = "com.amazonaws"         %  "aws-java-sdk-kinesis"   % V.awsSdk
+    val yodaTime             = "joda-time"             %  "joda-time"              % V.yodaTime
+    val kafkaClients         = "org.apache.kafka"      %  "kafka-clients"          % V.kafka
 
     // Scala
-    val snowplowCommonEnrich = "com.snowplowanalytics" %  "snowplow-common-enrich"    % V.snowplowCommonEnrich intransitive
-    val igluClient           = "com.snowplowanalytics" %  "iglu-scala-client"         % V.igluClient
-    val collectorPayload     = "com.snowplowanalytics" %  "collector-payload-1"       % V.collectorPayload
-    val scalaz7              = "org.scalaz"            %% "scalaz-core"               % V.scalaz7
-    val scopt                = "com.github.scopt"      %% "scopt"                     % V.scopt
-    val akkaHttp             = "com.typesafe.akka"     %% "akka-http"                 % V.akkaHttp
-    val json4sJackson        = "org.json4s"            %% "json4s-jackson"            % V.json4s
+    val snowplowCommonEnrich = "com.snowplowanalytics" %  "snowplow-common-enrich" % V.snowplowCommonEnrich intransitive
+    val igluClient           = "com.snowplowanalytics" %  "iglu-scala-client"      % V.igluClient
+    val collectorPayload     = "com.snowplowanalytics" %  "collector-payload-1"    % V.collectorPayload
+    val scalaz7              = "org.scalaz"            %% "scalaz-core"            % V.scalaz7
+    val scopt                = "com.github.scopt"      %% "scopt"                  % V.scopt
+    val akkaHttp             = "com.typesafe.akka"     %% "akka-http"              % V.akkaHttp
+    val json4sJackson        = "org.json4s"            %% "json4s-jackson"         % V.json4s
 
     // Scala (test only)
-    val specs2               = "org.specs2"            %% "specs2-core"               % V.specs2   % "test"
-    val akkaHttpTestkit      = "com.typesafe.akka"     %% "akka-http-testkit"         % V.akkaHttp % "test"
+    val specs2               = "org.specs2"            %% "specs2-core"            % V.specs2   % "test"
+    val akkaHttpTestkit      = "com.typesafe.akka"     %% "akka-http-testkit"      % V.akkaHttp % "test"
   }
 }

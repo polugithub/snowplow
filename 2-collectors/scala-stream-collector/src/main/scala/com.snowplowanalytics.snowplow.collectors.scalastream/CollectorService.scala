@@ -65,7 +65,7 @@ class CollectorService(
   private val logger = LoggerFactory.getLogger(getClass)
 
   private val collector =
-    s"${Settings.shortName}-${Settings.version}-${config.sinkEnabled.toString.toLowerCase}"
+    s"${Settings.shortName}-${Settings.version}-${config.sink.toString.toLowerCase}"
 
   override val cookieName = config.cookieName
 
@@ -81,14 +81,14 @@ class CollectorService(
     request: HttpRequest,
     pixelExpected: Boolean
   ): (HttpResponse, List[Array[Byte]]) = {
-    val (ipAddress, partitionKey) = getIpAndPartitionKey(ip, config.useIpAddressAsPartitionKey)
+    val (ipAddress, partitionKey) = getIpAndPartitionKey(ip, config.streams.useIpAddressAsPartitionKey)
     val nuid = getNetworkUserId(request, cookie)
     val event =
       buildEvent(queryString, body, path, userAgent, refererUri, hostname, ipAddress, request, nuid)
     val sinkResponses = sinkEvent(event, partitionKey)
 
     val headers = getCookieHeader(config.cookieConfig, nuid) ++ List(
-      RawHeader("P3P", "policyref=\"%s\", CP=\"%s\"".format(config.p3pPolicyRef, config.p3pCP)),
+      RawHeader("P3P", "policyref=\"%s\", CP=\"%s\"".format(config.p3p.policyRef, config.p3p.CP)),
       getAccessControlAllowOriginHeader(request),
       `Access-Control-Allow-Credentials`(true)
     )
@@ -156,7 +156,7 @@ class CollectorService(
     partitionKey: String
   ): List[Array[Byte]] =
     sinks.good.getType match {
-      case SinkType.Kinesis if KinesisSink.shuttingDown =>
+      case Kinesis if KinesisSink.shuttingDown =>
         logger.warn(s"Kinesis sink shutting down, cannot send event $event")
         List.empty
       case _ =>
@@ -181,7 +181,7 @@ class CollectorService(
     if (path.startsWith("/r/")) {
       val (r, l) = buildRedirectHttpResponse(event, partitionKey, queryString)
       (r.withHeaders(r.headers ++ headers), l)
-    } else if (sinks.good.getType == SinkType.Kinesis && KinesisSink.shuttingDown) {
+    } else if (sinks.good.getType == Kinesis && KinesisSink.shuttingDown) {
       logger.warn(s"Kinesis sink shutting down, cannot process request")
       // So that the tracker knows the request failed and can try to resend later
       (HttpResponse(404, entity = "404 not found"), Nil)
@@ -225,7 +225,7 @@ class CollectorService(
       val responseCookie = HttpCookie(
         name    = config.name,
         value   = networkUserId,
-        expires = Some(DateTime.now + config.expiration),
+        expires = Some(DateTime.now + config.expiration.toMillis),
         domain  = config.domain,
         path    = Some("/")
       )

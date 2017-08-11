@@ -58,6 +58,11 @@ package model {
     expiration: FiniteDuration,
     domain: Option[String]
   )
+  final case class CookieBounceConfig(
+    enabled: Boolean,
+    name: String,
+    fallbackNetworkUserId: String
+  )
   final case class P3PConfig(policyRef: String, CP: String)
   final case class AWSConfig(accessKey: String, secretKey: String)
   final case class BackoffPolicyConfig(minBackoff: Long, maxBackoff: Long)
@@ -88,6 +93,7 @@ package model {
     production: Boolean,
     p3p: P3PConfig,
     cookie: CookieConfig,
+    cookieBounce: CookieBounceConfig,
     sink: String,
     streams: StreamsConfig
   ) {
